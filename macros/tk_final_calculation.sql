@@ -24,13 +24,13 @@ ad_name as creative_name,
     'Tiktok' AS publisher,
     REGEXP_EXTRACT(adgroup_name, r'PLATFORM_([^_]+)') AS audience_name,
     CASE 
-        WHEN SPLIT (campaign_name,'_')[OFFSET(3)] LIKE '%SOCIAL%'
+        WHEN ARRAY_LENGTH(SPLIT(campaign_name,'_'))>=4 AND SPLIT (campaign_name,'_')[OFFSET(3)] LIKE '%SOCIAL%'
         AND (
             lower(ad_name) LIKE '%vid%'
             OR lower(campaign_name) LIKE '%vid%'
             OR lower(adgroup_name) LIKE '%vid%'
         ) THEN 'Social Video'
-        WHEN SPLIT (campaign_name,'_')[OFFSET(3)] LIKE '%SOCIAL%'
+        WHEN ARRAY_LENGTH(SPLIT(campaign_name,'_'))>=4 AND SPLIT (campaign_name,'_')[OFFSET(3)] LIKE '%SOCIAL%'
         AND (
             lower(ad_name) NOT LIKE '%vid%'
             AND lower(campaign_name) NOT LIKE '%vid%'
@@ -42,7 +42,7 @@ ad_name as creative_name,
     CASE WHEN ARRAY_LENGTH(SPLIT(ad_name,'_'))>=8 THEN SPLIT(ad_name, '_')[OFFSET(5)] ELSE 'Other' END AS ad_format_detail,
     CASE WHEN ARRAY_LENGTH(SPLIT(ad_name,'_'))>=8 THEN SPLIT(ad_name, '_')[OFFSET(6)] ELSE 'Other' END AS ad_format,
     CASE WHEN ARRAY_LENGTH(SPLIT(ad_name,'_'))>=8 THEN SPLIT(ad_name, '_')[OFFSET(7)] ELSE 'Other' END  AS creative_descr,
-    SPLIT(campaign_name,'_')[OFFSET(1)] AS campaign_descr
+    CASE WHEN ARRAY_LENGTH(SPLIT(campaign_name,'_'))>=2 THEN SPLIT(campaign_name,'_')[OFFSET(1)] ELSE campaign_name END AS campaign_descr
 FROM 
     final
 
