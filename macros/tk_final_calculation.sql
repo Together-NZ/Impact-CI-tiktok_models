@@ -46,4 +46,5 @@ ad_name as creative_name,
 FROM 
     final
 
+{% endmacro %}
     
