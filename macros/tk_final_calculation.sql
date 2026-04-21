@@ -38,10 +38,7 @@ ad_name as creative_name,
         THEN 'Social Display'
         ELSE 'Other'
     END AS media_format,
-    CASE WHEN ARRAY_LENGTH(SPLIT(adgroup_name, '_')) < 8 AND ARRAY_LENGTH(SPLIT(adgroup_name, '_')) > 1  
-         THEN SPLIT(adgroup_name, '_')[SAFE_OFFSET(ARRAY_LENGTH(SPLIT(adgroup_name, '_'))-1)] 
-         WHEN ARRAY_LENGTH(SPLIT(adgroup_name, '_')) >= 8 THEN SPLIT(adgroup_name, '_')[SAFE_OFFSET(7)] 
-         ELSE 'Other' END AS audience_name,
+    REGEXP_EXTRACT(adgroup_name, r'PLATFORM_([^_]+)') AS audience_name,
    CASE WHEN ARRAY_LENGTH(SPLIT(ad_name, '_')) < 8 AND ARRAY_LENGTH(SPLIT(ad_name, '_')) > 1  
          THEN SPLIT(ad_name, '_')[SAFE_OFFSET(ARRAY_LENGTH(SPLIT(ad_name, '_'))-1)] 
          WHEN ARRAY_LENGTH(SPLIT(ad_name, '_')) >= 8 THEN SPLIT(ad_name, '_')[SAFE_OFFSET(7)] 
