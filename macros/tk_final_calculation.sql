@@ -4,6 +4,7 @@ SELECT
   SUM(ad.clicks) AS clicks,
   SUM(ad.media_cost) as media_cost,
   SUM(ad.impressions) AS impressions,
+  SUM(ad.conversions) as conversions,
   SUM(ad_v.video_25_completion) as video_25_completion,
   SUM(ad_v.video_50_completion) as video_50_completion,
   SUM(ad_v.video_75_completion) as video_75_completion,
