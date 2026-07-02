@@ -6,7 +6,7 @@ ad_data AS (
     SAFE_CAST(SAFE_CAST(JSON_VALUE(data, '$.impressions') AS FLOAT64) AS INT64) AS impressions,
     SAFE_CAST(SAFE_CAST(JSON_VALUE(data, '$.clicks') AS FLOAT64) AS INT64) AS clicks,
     JSON_VALUE(data, '$.stat_time_day') AS date,
-    SAFE_CAST(JSON_VALUE(data,'$.conversion') AS INT64 ) AS conversions,
+    SAFE_CAST(JSON_VALUE(data,'$.result') AS INT64 ) AS result,
     ROW_NUMBER() OVER (PARTITION BY SAFE_CAST(JSON_VALUE(data, '$.ad_id') AS INT64),JSON_VALUE(data, '$.stat_time_day')) as row_num
   FROM {{ source(source_name, table_name) }}
 ),
