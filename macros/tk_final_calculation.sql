@@ -23,6 +23,7 @@ ad_campaign.* FROM ad_stat_id LEFT JOIN ad_campaign ON SAFE_CAST(ad_stat_id.ad_i
 SELECT  * EXCEPT(date,ad_name), DATE(PARSE_DATETIME('%F %H:%M:%S',date)) AS date,
 ad_name as creative_name,
     'Tiktok' AS publisher,
+    'Tiktok' AS platform,
     CASE 
         WHEN ARRAY_LENGTH(SPLIT(campaign_name,'_'))>=4 AND SPLIT (campaign_name,'_')[OFFSET(3)] LIKE '%SOCIAL%'
         AND (
