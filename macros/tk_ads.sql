@@ -21,7 +21,7 @@ deduplicate_campaign_data AS (
   SELECT * FROM campaign_data WHERE row_num = 1
 ),
 ad_campaign_no_adgroup as (
-  SELECT ad_data_basic.* except(campaign_id), deduplicate_campaign_data.* FROM ad_data_basic LEFT JOIN deduplicate_campaign_data ON ad_data_basic.campaign_id = deduplicate_campaign_data.campaign_id
+  SELECT ad_data_basic.* except(campaign_id,row_num), deduplicate_campaign_data.* FROM ad_data_basic LEFT JOIN deduplicate_campaign_data ON ad_data_basic.campaign_id = deduplicate_campaign_data.campaign_id
 ),
 adgroup_data AS (
   SELECT TRIM(JSON_VALUE(data,'$.adgroup_id')) AS adgroup_id,
@@ -35,7 +35,7 @@ deduplicate_adgroup_data AS (
   SELECT * FROM adgroup_data WHERE row_num = 1
 ),
 ad_campaign AS (
-  SELECT ad_campaign_no_adgroup.* except(adgroup_id,campaign_id), deduplicate_adgroup_data.* FROM ad_campaign_no_adgroup LEFT JOIN deduplicate_adgroup_data ON ad_campaign_no_adgroup.adgroup_id = deduplicate_adgroup_data.adgroup_id
+  SELECT ad_campaign_no_adgroup.* except(adgroup_id,campaign_id,row_num), deduplicate_adgroup_data.* FROM ad_campaign_no_adgroup LEFT JOIN deduplicate_adgroup_data ON ad_campaign_no_adgroup.adgroup_id = deduplicate_adgroup_data.adgroup_id
 )
 
 {% endmacro %}
